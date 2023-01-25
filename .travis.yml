@@ -1,0 +1,8 @@
+language: node_js
+node_js:
+  - 16.18
+install:
+  - npm install
+  - npm install --global mocha
+script:
+  - npm test
