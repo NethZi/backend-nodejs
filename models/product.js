@@ -1,4 +1,4 @@
-//Product.JS to create Product Schema in the application 
+//Product.JS to create Product Schema in the application
 
 //Including the required packages and assigning it to Local Variables
 const mongoose = require('mongoose');
@@ -9,18 +9,20 @@ const mongooseAlgolia = require('mongoose-algolia');
 
 //Creating a new Product Schema
 const ProductSchema = new Schema({
-  
-  category: { type: Schema.Types.ObjectId, ref: 'Category'},
+
+
+  categoryId: Number,
   owner:  { type: Schema.Types.ObjectId, ref: 'User'},
   reviews: [{ type: Schema.Types.ObjectId, ref: 'Review'}],
-  image: String,
   title: String,
   description: String,
-  price: Number,
-  crated: { type: Date, default: Date.now }
+    imageUrl: String,
+    price: Number,
+  created: { type: Date, default: Date.now }
 }, {
   toObject: { virtuals: true },
-  toJSON: { virtuals: true }
+  toJSON: { virtuals: true },
+  uploaded: { type: Date, default: Date.now }
 });
 
 ProductSchema
@@ -38,8 +40,8 @@ ProductSchema
     return rating;
   });
 
-  //Adding Plug-ins to ProductSchema like Algolia to facilitate searching of products 
-ProductSchema.plugin(deepPopulate);   //Facilitate rating of the product 
+  //Adding Plug-ins to ProductSchema like Algolia to facilitate searching of products
+ProductSchema.plugin(deepPopulate);   //Facilitate rating of the product
 ProductSchema.plugin(mongooseAlgolia, {
   appId: '0FOEJ0HBMM',
   apiKey: '3de82e9037ed2726d3a11d8b48a27b49',
@@ -59,8 +61,8 @@ ProductSchema.plugin(mongooseAlgolia, {
   },
   debug: true
 })
- 
-//Wrapping product schema to Model and synchronizing Algolia API 
+
+//Wrapping product schema to Model and synchronizing Algolia API
 let Model =  mongoose.model('Product', ProductSchema);
 Model.SyncToAlgolia();
 Model.SetAlgoliaSettings({

@@ -8,6 +8,7 @@ const bodyParser = require('body-parser');         //body-parser to parse the JS
 const mongoose = require('mongoose');              //Mongoose package to connect to back-end mongoDB
 const cors = require('cors');                      //Package to connect middle-ware or cross-platform applications
 const config = require('./config');
+var path = require('path');
 
 const app = express();                              //wrapping the new express application in app variable
 
@@ -28,6 +29,8 @@ mongoose.connect(config.database, err => {
   }
 });
 
+app.use(express.static(path.join(__dirname, 'public')));
+app.use(cors());
 //express application using required packages
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
@@ -37,12 +40,14 @@ app.use(cors());
 const userRoutes = require('./routes/account');
 const mainRoutes = require('./routes/main');
 const sellerRoutes = require('./routes/seller');
+const productRoutes = require('./routes/product');
 const productSearchRoutes = require('./routes/product-search');
 
 //express application using Routes from this application
 app.use('/api', mainRoutes);
 app.use('/api/accounts', userRoutes);
 app.use('/api/seller', sellerRoutes);
+app.use('/api/product', productRoutes);
 app.use('/api/search', productSearchRoutes);
 
 
