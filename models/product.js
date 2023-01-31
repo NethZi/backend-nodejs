@@ -18,6 +18,7 @@ const ProductSchema = new Schema({
   description: String,
     imageUrl: String,
     price: Number,
+    stock: Number,
   created: { type: Date, default: Date.now }
 }, {
   toObject: { virtuals: true },

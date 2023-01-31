@@ -1,4 +1,4 @@
-// Account.JS file to maintain every users account details(SignUp,Login,Orders) and handle routes 
+// Account.JS file to maintain every users account details(SignUp,Login,Orders) and handle routes
 
 //Including the required packages and assigning it to Local Variables
 const router = require('express').Router();
@@ -9,7 +9,7 @@ const config = require('../config');
 const checkJWT = require('../middlewares/check-jwt');
 
 
-//Function to facilitate Sign Up feature 
+//Function to facilitate Sign Up feature
 router.post('/signup', (req, res, next) => {
  let user = new User();
  user.name = req.body.name;
@@ -73,7 +73,8 @@ router.post('/login', (req, res, next) => {
         res.json({
           success: true,
           mesage: "Enjoy your token",
-          token: token
+          token: token,
+          email: req.body.email
         });
       }
     }
@@ -82,7 +83,7 @@ router.post('/login', (req, res, next) => {
 });
 
 
-//Function to handle Profile API (GET,POST) functionality for authenticated users 
+//Function to handle Profile API (GET,POST) functionality for authenticated users
 router.route('/profile')
   .get(checkJWT, (req, res, next) => {
     User.findOne({ _id: req.decoded.user._id }, (err, user) => {
@@ -131,7 +132,7 @@ router.route('/profile')
       if (req.body.state) user.address.state = req.body.state;
       if (req.body.country) user.address.country = req.body.country;
       if (req.body.postalCode) user.address.postalCode = req.body.postalCode;
-     
+
       user.save();
       res.json({
         success: true,
@@ -142,9 +143,9 @@ router.route('/profile')
 
 
 
-  
-  
- //Function to handle Orders functionality for authenticated users  
+
+
+ //Function to handle Orders functionality for authenticated users
 router.get('/orders', checkJWT, (req, res, next) => {
     Order.find({ owner: req.decoded.user._id })
       .populate('products.product')
@@ -165,7 +166,7 @@ router.get('/orders', checkJWT, (req, res, next) => {
       });
   });
 
-  //Function to handle specific order functionality 
+  //Function to handle specific order functionality
   router.get('/orders/:id', checkJWT, (req, res, next) => {
     Order.findOne({ _id: req.params.id })
       .deepPopulate('products.product.owner')
@@ -187,5 +188,5 @@ router.get('/orders', checkJWT, (req, res, next) => {
   });
 
 
-//Exporting the module 
+//Exporting the module
 module.exports = router;
