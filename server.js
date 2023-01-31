@@ -41,6 +41,7 @@ const userRoutes = require('./routes/account');
 const mainRoutes = require('./routes/main');
 const sellerRoutes = require('./routes/seller');
 const productRoutes = require('./routes/product');
+const productDeleteRoutes = require('./routes/product-delete');
 const productSearchRoutes = require('./routes/product-search');
 
 //express application using Routes from this application
@@ -48,6 +49,7 @@ app.use('/api', mainRoutes);
 app.use('/api/accounts', userRoutes);
 app.use('/api/seller', sellerRoutes);
 app.use('/api/product', productRoutes);
+app.use('/api/deleteProduct', productDeleteRoutes);
 app.use('/api/search', productSearchRoutes);
 
 
