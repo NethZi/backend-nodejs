@@ -38,6 +38,7 @@ app.use(morgan('dev'));
 app.use(cors());
 
 const userRoutes = require('./routes/account');
+const allUserRoutes = require('./routes/users');
 const mainRoutes = require('./routes/main');
 const sellerRoutes = require('./routes/seller');
 const productRoutes = require('./routes/product');
@@ -51,6 +52,7 @@ app.use('/api/seller', sellerRoutes);
 app.use('/api/product', productRoutes);
 app.use('/api/deleteProduct', productDeleteRoutes);
 app.use('/api/search', productSearchRoutes);
+app.use('/api/users', allUserRoutes);
 
 
 //Setting up the port for server to run on
