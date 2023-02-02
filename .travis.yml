@@ -3,6 +3,8 @@ node_js:
   - 16.18
 install:
   - npm install
+  -  npm i chai
+  - npm i chai-http
   - npm install --global mocha
 script:
   - npm test
